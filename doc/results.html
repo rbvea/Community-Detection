@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>results</title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-11-14 20:25:49 HST"/>
+<meta name="author" content="Russell Vea"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">results</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Analysis </a>
+<ul>
+<li><a href="#sec-1.1">1.1 VerticeDegrees.java </a></li>
+<li><a href="#sec-1.2">1.2 StronglyConnectedComponents.java </a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 Graphs and results </a>
+<ul>
+<li><a href="#sec-2.1">2.1 karate.net </a>
+<ul>
+<li><a href="#sec-2.1.1">2.1.1 |V|:  34, |E|: 78 </a></li>
+<li><a href="#sec-2.1.2">2.1.2 Degree Distribution </a></li>
+</ul>
+</li>
+<li><a href="#sec-2.2">2.2 Strongly Connected Components </a></li>
+<li><a href="#sec-2.3">2.3 c-elegans.net </a>
+<ul>
+<li><a href="#sec-2.3.1">2.3.1 |V|:  297, |E|: 2345 </a></li>
+<li><a href="#sec-2.3.2">2.3.2 Strongly Connected Components </a></li>
+</ul>
+</li>
+<li><a href="#sec-2.4">2.4 political-blogs.net </a>
+<ul>
+<li><a href="#sec-2.4.1">2.4.1 |V|:  1490|E|: 19025 </a></li>
+<li><a href="#sec-2.4.2">2.4.2 Degree Distribution </a></li>
+<li><a href="#sec-2.4.3">2.4.3 Strongly Connected Components </a></li>
+</ul>
+</li>
+<li><a href="#sec-2.5">2.5 Ti-Chat </a>
+<ul>
+<li><a href="#sec-2.5.1">2.5.1 |V|:  12833|E|: 38933 </a></li>
+<li><a href="#sec-2.5.2">2.5.2 Degree Distribution </a></li>
+<li><a href="#sec-2.5.3">2.5.3 Strongly Connected Components </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Analysis </h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> VerticeDegrees.java </h3>
+<div class="outline-text-3" id="text-1.1">
+
+<p>The degree computation on each graph had a runtime of 
+<b>&Theta;(3V)</b>.
+Since each call to inDegree/outDegree was O(V) and all V vertices were
+tested and queried for their degrees.
+</p>
+<p>
+The storage space for the test was simple as nothing but a few ints
+and doubles were required, other than the matrix.
+</p></div>
+
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> StronglyConnectedComponents.java </h3>
+<div class="outline-text-3" id="text-1.2">
+
+<p>Calculating the SCCs entailed two calls to DFS and two sorts.
+Since java's sort in the Arrays class is advertised as O(V log V), 
+and a DFS on an Adjacency Matrix is O(V<sup>2</sup>) the runtime is bounded
+by the two calls to DFS, which makes it <b>O(V<sup>2</sup>)</b>.
+</p>
+<p>
+The storage space uses two HashTables of O(V) and two Matrices of
+O(V + E).  Therefore the algorithm's space complexity is bounded by
+<b>O(V + E)</b>.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Graphs and results </h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2.1" class="outline-3">
+<h3 id="sec-2.1"><span class="section-number-3">2.1</span> karate.net </h3>
+<div class="outline-text-3" id="text-2.1">
+
+
+</div>
+
+<div id="outline-container-2.1.1" class="outline-4">
+<h4 id="sec-2.1.1"><span class="section-number-4">2.1.1</span> |V|:  34, |E|: 78 </h4>
+<div class="outline-text-4" id="text-2.1.1">
+
+</div>
+
+</div>
+
+<div id="outline-container-2.1.2" class="outline-4">
+<h4 id="sec-2.1.2"><span class="section-number-4">2.1.2</span> Degree Distribution </h4>
+<div class="outline-text-4" id="text-2.1.2">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="right" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Degree Distribution</th><th scope="col">minimum</th><th scope="col">average</th><th scope="col">maximum</th></tr>
+</thead>
+<tbody>
+<tr><td>inDegree(v)</td><td>0</td><td>2.294118</td><td>16</td></tr>
+<tr><td>outDegree(v)</td><td>0</td><td>2.323529</td><td>17</td></tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2.2" class="outline-3">
+<h3 id="sec-2.2"><span class="section-number-3">2.2</span> Strongly Connected Components </h3>
+<div class="outline-text-3" id="text-2.2">
+
+
+<pre>
+# of SCC in karate.net: 34
+size: 1          Root: 10        degree(10): 2
+size: 1          Root: 12        degree(12): 6
+size: 1          Root: 11        degree(11): 3
+size: 1          Root: 27        degree(27): 2
+size: 1          Root: 22        degree(22): 6
+size: 1          Root: 32        degree(32): 4
+size: 1          Root: 21        degree(21): 2
+size: 1          Root: 24        degree(24): 9
+size: 1          Root: 30        degree(30): 3
+size: 1          Root: 16        degree(16): 2
+size: 1          Root: 31        degree(31): 5
+size: 1          Root: 23        degree(23): 10
+size: 1          Root: 6         degree(6): 2
+size: 1          Root: 15        degree(15): 5
+size: 1          Root: 7         degree(7): 4
+size: 1          Root: 17        degree(17): 4
+size: 1          Root: 26        degree(26): 12
+size: 1          Root: 5         degree(5): 2
+size: 1          Root: 0         degree(0): 2
+size: 1          Root: 28        degree(28): 17
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2.3" class="outline-3">
+<h3 id="sec-2.3"><span class="section-number-3">2.3</span> c-elegans.net </h3>
+<div class="outline-text-3" id="text-2.3">
+
+
+</div>
+
+<div id="outline-container-2.3.1" class="outline-4">
+<h4 id="sec-2.3.1"><span class="section-number-4">2.3.1</span> |V|:  297, |E|: 2345 </h4>
+<div class="outline-text-4" id="text-2.3.1">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="right" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Degree Distribution</th><th scope="col">minimum</th><th scope="col">average</th><th scope="col">maximum</th></tr>
+</thead>
+<tbody>
+<tr><td>inDegree(v):</td><td>0</td><td>7.895623</td><td>134</td></tr>
+<tr><td>outDegree(v):</td><td>0</td><td>7.898990</td><td>39</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2.3.2" class="outline-4">
+<h4 id="sec-2.3.2"><span class="section-number-4">2.3.2</span> Strongly Connected Components </h4>
+<div class="outline-text-4" id="text-2.3.2">
+
+
+
+
+<pre>
+# of SCC in c-elegans.net: 57
+size: 239        Root: 0         degree(12): 83
+size: 2          Root: 248       degree(248): 6
+size: 2          Root: 23        degree(23): 21
+size: 1          Root: 134       degree(134): 8
+size: 1          Root: 81        degree(81): 3
+size: 1          Root: 287       degree(287): 1
+size: 1          Root: 259       degree(259): 7
+size: 1          Root: 285       degree(285): 1
+size: 1          Root: 234       degree(234): 11
+size: 1          Root: 278       degree(278): 8
+size: 1          Root: 274       degree(274): 4
+size: 1          Root: 252       degree(252): 6
+size: 1          Root: 268       degree(268): 9
+size: 1          Root: 251       degree(251): 2
+size: 1          Root: 280       degree(280): 3
+size: 1          Root: 94        degree(94): 4
+size: 1          Root: 51        degree(51): 10
+size: 1          Root: 57        degree(57): 9
+size: 1          Root: 54        degree(54): 8
+size: 1          Root: 186       degree(186): 7
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2.4" class="outline-3">
+<h3 id="sec-2.4"><span class="section-number-3">2.4</span> political-blogs.net </h3>
+<div class="outline-text-3" id="text-2.4">
+
+
+</div>
+
+<div id="outline-container-2.4.1" class="outline-4">
+<h4 id="sec-2.4.1"><span class="section-number-4">2.4.1</span> |V|:  1490|E|: 19025 </h4>
+<div class="outline-text-4" id="text-2.4.1">
+
+</div>
+
+</div>
+
+<div id="outline-container-2.4.2" class="outline-4">
+<h4 id="sec-2.4.2"><span class="section-number-4">2.4.2</span> Degree Distribution </h4>
+<div class="outline-text-4" id="text-2.4.2">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="right" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Degree Distribution:</th><th scope="col">minimum</th><th scope="col">average</th><th scope="col">maximum</th></tr>
+</thead>
+<tbody>
+<tr><td>inDegree(v):</td><td>0</td><td>12.766443</td><td>337</td></tr>
+<tr><td>outDegree(v):</td><td>0</td><td>12.769128</td><td>256</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2.4.3" class="outline-4">
+<h4 id="sec-2.4.3"><span class="section-number-4">2.4.3</span> Strongly Connected Components </h4>
+<div class="outline-text-4" id="text-2.4.3">
+
+
+<pre>
+# of SCC in political-blogs.net: 688
+size: 793        Root: 0         degree(854): 467
+size: 3          Root: 157       degree(417): 26
+size: 2          Root: 874       degree(1275): 16
+size: 2          Root: 1056      degree(1056): 9
+size: 2          Root: 1292      degree(1292): 34
+size: 2          Root: 1261      degree(1402): 10
+size: 2          Root: 447       degree(447): 7
+size: 2          Root: 819       degree(819): 4
+size: 2          Root: 137       degree(137): 15
+size: 2          Root: 268       degree(582): 13
+size: 1          Root: 998       degree(998): 0
+size: 1          Root: 1017      degree(1017): 1
+size: 1          Root: 757       degree(757): 1
+size: 1          Root: 339       degree(339): 2
+size: 1          Root: 455       degree(455): 0
+size: 1          Root: 327       degree(327): 5
+size: 1          Root: 232       degree(232): 56
+size: 1          Root: 1330      degree(1330): 1
+size: 1          Root: 115       degree(115): 1
+size: 1          Root: 58        degree(58): 1
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2.5" class="outline-3">
+<h3 id="sec-2.5"><span class="section-number-3">2.5</span> Ti-Chat </h3>
+<div class="outline-text-3" id="text-2.5">
+
+
+</div>
+
+<div id="outline-container-2.5.1" class="outline-4">
+<h4 id="sec-2.5.1"><span class="section-number-4">2.5.1</span> |V|:  12833|E|: 38933 </h4>
+<div class="outline-text-4" id="text-2.5.1">
+
+</div>
+
+</div>
+
+<div id="outline-container-2.5.2" class="outline-4">
+<h4 id="sec-2.5.2"><span class="section-number-4">2.5.2</span> Degree Distribution </h4>
+<div class="outline-text-4" id="text-2.5.2">
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="right" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Degree Distribution:</th><th scope="col">minimum</th><th scope="col">average</th><th scope="col">maximum</th></tr>
+</thead>
+<tbody>
+<tr><td>inDegree(v):</td><td>0</td><td>3.033819</td><td>741</td></tr>
+<tr><td>outDegree(v):</td><td>0</td><td>3.033897</td><td>735</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2.5.3" class="outline-4">
+<h4 id="sec-2.5.3"><span class="section-number-4">2.5.3</span> Strongly Connected Components </h4>
+<div class="outline-text-4" id="text-2.5.3">
+
+<p>I was unable to get results running the program even if I set the
+-Xmx2028M  argment.  Considering the storage space for the program
+was 2(V * E) where |V| = 12833 and |E| = 38933, I would admit that 
+my implementation has a bad storage bound, since I store both two
+HashMaps and an array of integers.  I would say that my choice of 
+Adjacency Matrices, despite their fast look-up rate, is not good
+for graphs as large and sparse.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Russell Vea
+<a href="mailto:veas@Russells-Mac-mini.local">&lt;veas@Russells-Mac-mini.local&gt;</a>
+</p>
+<p class="date"> Date: 2011-11-14 20:25:49 HST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
+</div>
+</body>
+</html>
