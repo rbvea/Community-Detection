@@ -1,0 +1,41 @@
+ICS311-A2-RBVEA
+Author: Russell Vea
+
+Included Files:
+---------------------------------------------------
+/src/edu/hawaii/ics311/amatrix
+  AdjacencyMatrix.java
+  Color.java
+  DepthFirstSearch.java
+  Edge.java
+  InvalidEdgeException.java
+  Pair.java
+  StronglyConnectedComponents.java
+  Vertex.java
+  VerticeDegrees.java
+/src/edu/hawaii/ics311/amatrix/utils
+  GetMatrix.java
+/doc
+  Testing.html -- The Testing Document
+  Results.html -- Results and analysis of the results of VerticeDegrees.java and StronglyConnectedComponents.java
+  Analysis.html -- The analysis of the provided Adjacency Matrix class and its methods.
+
+To run:
+---------------------------------------------------
+Folder was compiled and exported using Eclipse Indigo Service Release 1.
+To run using Eclipse unzip zipfile "ICS311-A2-RBVEA.zip".
+Run eclipse and import using file->import...->Exisiting Project Into Workspace specifying the root of this folder.
+
+VerticeDegree.java and StronglyConnectedComponents.java output the expected data required for this assignment.
+It is highly recommended to add the vmargument -Xmx1024M or higher when processing the ti-chats.net file.
+TestAdjacencyMatrix.java is a JUnit test class using JUnit 4, Eclipse should be able to run it.
+
+Known Issue:
+---------------------------------------------------
+The ti-chats.net SCC was not able to be computed under a mac with 2.3Ghz i5 processor and 2 GB of ram.
+
+
+
+
+
+
