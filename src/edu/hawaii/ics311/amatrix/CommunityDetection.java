@@ -1,12 +1,13 @@
 package edu.hawaii.ics311.amatrix;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
+
 import edu.hawaii.ics311.amatrix.utils.GetMatrix;
-
-
 
 /**
  * Implementation of the algorithm specified by Palla et al.
@@ -28,7 +29,7 @@ import edu.hawaii.ics311.amatrix.utils.GetMatrix;
 public class CommunityDetection {
 
   VerticeDegrees degrees;
-
+  BronKerbosch bronbron;
   AdjacencyMatrix matrix;
   AdjacencyMatrix ccmatrix;
   Integer[] degreeVertices;
@@ -45,35 +46,25 @@ public class CommunityDetection {
     for(int i = 0; i < degreeVertices.length; i++) {
       Vertex rep = this.matrix.getVertex(degreeVertices[i]);
       if (rep != null) {
-        Clique thisClique = new Clique(rep);
-        rep.setAnnotation("Clique", thisClique);
+        Set<Vertex> thisSet = new HashSet<Vertex>();
         Iterator<Vertex> adjacent = this.matrix.adjacentVertices(rep);
         matrix.deleteVertex(rep);
         while (adjacent.hasNext()) {
           Vertex v = adjacent.next();
-
           if(matrix.contains(v)) {
-            thisClique.addVertex(v);
-            this.matrix.deleteVertex(v);
+             thisSet.add(v);
           }
         }
-        this.cliques.add(thisClique);
       }
     }
    for (int i = 0; i < this.cliques.size(); i++) {
-     System.out.println("V: " + this.cliques.get(i).getRepresentative());
-     List<Vertex> toPrint = this.cliques.get(i).getMembers();
-     System.out.print("Members ");
-     for(int j = 0; j < toPrint.size(); j++) {
-       System.out.print(toPrint.get(j) + " ");
-     }
-     System.out.print("\n");
+     
    }
   }
   
   public static void main(String[] args) throws IOException{
     GetMatrix get = new GetMatrix();
-    AdjacencyMatrix test = get.parseFile("doc/c-elegans.net");
+    AdjacencyMatrix test = get.parseFile("doc/karate.net");
     System.out.println(test);
     CommunityDetection com = new CommunityDetection(test);
     com.find();
