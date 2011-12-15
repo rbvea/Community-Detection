@@ -76,4 +76,8 @@ public class Vertex implements Comparable<Vertex>{
   @Override public String toString() {
     return Integer.toString(id);
   }
+
+  public void setData(Object data) {
+    this.data = data;
+  }
 }

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import edu.hawaii.ics311.amatrix.utils.GetMatrix;
 import java.util.Comparator;
 
@@ -42,7 +41,7 @@ public class VerticeDegrees {
   public static void main(String[] args) throws IOException{
     VerticeDegrees test = new VerticeDegrees();
     GetMatrix get = new GetMatrix();
-    AdjacencyMatrix matrix = get.parseFile("doc/karate.net");
+    AdjacencyMatrix matrix = get.parseFile("doc/political-blogs.net");
     Integer[] results = test.getDegreeSequence(matrix);
     for (int i = 0; i < results.length; i++) {
       System.out.print(results[i] + " ");
@@ -113,9 +112,9 @@ class ElementComparator implements Comparator<Object> {
     Map.Entry<Integer, Integer> one = (Entry<Integer, Integer>) o1;
     Map.Entry<Integer, Integer> two = (Entry<Integer, Integer>) o2;
     
-    if (one.getValue() > two.getValue()) {
+    if (one.getValue() < two.getValue()) {
       return -1;
-    } else if (one.getValue() < two.getValue()) {
+    } else if (one.getValue() > two.getValue()) {
       return 1;
     }
     

@@ -11,7 +11,7 @@ import java.util.Map;
  * Implementation of the Graph API using a Matrix
  * where Matrix[i][i] is the index of the vertices
  * and Matrix[i][j] = 1 if there exists an directional
- * edge e between i and j
+ * edge Vertex between i and j
  * 
  * @author Russell Vea for ICS 311 Fall 2011 Assignment 2
  */
@@ -87,7 +87,8 @@ public class AdjacencyMatrix implements Cloneable{
     ArrayList<Vertex> adj = new ArrayList<Vertex>();
     for (int i = 0; i < matrix.length; i++) {
       if (matrix[v][i] == 1 || matrix[i][v] == 1 && i != v) { 
-        adj.add(vertices.get(i));
+        if(contains(vertices.get(i)))
+          adj.add(vertices.get(i));
       }
     }
     return adj.iterator();
@@ -117,16 +118,16 @@ public class AdjacencyMatrix implements Cloneable{
      }
      return inc.iterator();
   }
-  
-  public Vertex[] endVertices (Edge e) { 
+  /*
+  public Vertex[] endVertices (Edge Vertex) { 
     Vertex[] ends = new Vertex[2];
-    ends[0] = vertices.get(e.getStart());
-    ends[1] = vertices.get(e.getEnd());
+    ends[0] = vertices.get(Vertex.getStart());
+    ends[1] = vertices.get(Vertex.getEnd());
     return ends;
-  }
+  }*/
   
-  public Vertex opposite (Vertex v, Edge e) {
-    int toReturn = v.getId() == e.getStart() ? e.getStart() : e.getEnd();
+  public Vertex opposite (Vertex v, Edge Vertex) {
+    int toReturn = v.getId() == Vertex.getStart() ? Vertex.getStart() : Vertex.getEnd();
     return vertices.get(toReturn);
   }
   
@@ -141,18 +142,18 @@ public class AdjacencyMatrix implements Cloneable{
   
   public Iterator<Edge> directedEdges() {
     ArrayList<Edge> directedEdges = new ArrayList<Edge>();
-    for(Edge e : edges.values()) { 
-      if (e.isDirected())
-        directedEdges.add(e);
+    for(Edge Vertex : edges.values()) { 
+      if (Vertex.isDirected())
+        directedEdges.add(Vertex);
     }
     return directedEdges.iterator();
   }
   
   public Iterator<Edge> undirectedEdges() {
     ArrayList<Edge> undirectedEdges = new ArrayList<Edge>();
-    for(Edge e : edges.values()) { 
-      if (!e.isDirected()) 
-        undirectedEdges.add(e);
+    for(Edge Vertex : edges.values()) { 
+      if (!Vertex.isDirected()) 
+        undirectedEdges.add(Vertex);
     }
     return undirectedEdges.iterator();
   }
@@ -199,9 +200,9 @@ public class AdjacencyMatrix implements Cloneable{
    */
   public Iterator<Vertex> outAdjacentVertices(Vertex v) { 
     ArrayList<Vertex> inAdj = new ArrayList<Vertex>();
-    for(Edge e : this.edges.values())
-      if(e.getStart() == v.getId())
-        inAdj.add(vertices.get(e.getEnd()));
+    for(Edge Vertex : this.edges.values())
+      if(Vertex.getStart() == v.getId())
+        inAdj.add(vertices.get(Vertex.getEnd()));
     return inAdj.iterator();
   }
   
@@ -221,59 +222,68 @@ public class AdjacencyMatrix implements Cloneable{
   }
   
   /**
-   * TODO: Test whether iterating over matrix or list is more efficient
    * @param v 
    * @return an iterator over the vertices adjacent to v by incoming edges. 
    */
   public Iterator<Edge> outIncidentEdges(Vertex v) { 
     ArrayList<Edge> outEdge = new ArrayList<Edge>();
-    for(Edge e : edges.values()) {
-      if(e.getEnd() == v.getId())
-        outEdge.add(e);
+    for(Edge Vertex : edges.values()) {
+      if(Vertex.getEnd() == v.getId())
+        outEdge.add(Vertex);
     }
     return outEdge.iterator();
   }
   
   /**
    * 
-   * @param e Edge
-   * @return the origin vertex of e, if e is directed.
+   * @param Vertex Edge
+   * @return the origin Vertex of Vertex, if Vertex is directed.
    * @throws Exception 
    */
-  public Vertex origin(Edge e) throws InvalidEdgeException {  
-    if(!e.isDirected()) 
-      throw new InvalidEdgeException("Invalid edge" + e);
+  public Vertex origin(Edge Vertex) throws InvalidEdgeException {  
+    if(!Vertex.isDirected()) 
+      throw new InvalidEdgeException("Invalid edge" + Vertex);
      else 
-      return vertices.get(e.getStart());
+      return vertices.get(Vertex.getStart());
   }
   
   /**
    * 
-   * @param e
+   * @param Vertex
    * @return
    * @throws InvalidEdgeException
    */
-  public Vertex destination(Edge e) throws InvalidEdgeException { 
-    if(!e.isDirected())
-      throw new InvalidEdgeException("Invalid edge" + e);
+  public Vertex destination(Edge Vertex) throws InvalidEdgeException { 
+    if(!Vertex.isDirected())
+      throw new InvalidEdgeException("Invalid edge" + Vertex);
    else 
-     return vertices.get(e.getEnd());
+     return vertices.get(Vertex.getEnd());
   }
    
   /*BEGIN Mutators */
   
   /**
-   * Add vertex by cloning matrix and extending dimensions
-   * @param v vertex of matrix to be added
+   * Add Vertex by cloning matrix and extending dimensions
+   * @param v Vertex of matrix to be added
    */
   public void addVertex(Vertex v) {
-    if (this.vertices.size() == this.matrix.length) {
+    if (this.vertices.size() >= this.matrix.length - 1) {
       int[][] temp = this.matrix.clone();
-      this.matrix = new int[matrix.length + 1][matrix.length + 1];
-      System.arraycopy(temp, 0, matrix, 0, matrix.length);
-      this.matrix[this.matrix.length][this.matrix.length] = this.matrix.length;
-      v.setId(matrix.length);
-    } 
+      this.matrix = new int[matrix.length + 7][matrix.length + 7];
+      //System.arraycopy(temp, 0, matrix, 0, temp.length);
+
+      for(int i = 0; i < temp.length; i++) {
+        for(int j = 0; j < temp[i].length; j++) {
+          this.matrix[i][j] = temp[i][j];
+        }
+      }
+      v.setId(this.vertices.size());
+      this.matrix[this.vertices.size() + 1][this.vertices.size() + 1] = this.vertices.size() + 1;
+    }  else {
+      if(this.matrix[v.getId()][v.getId()] == 0) {
+        this.matrix[v.getId()][v.getId()] = v.getId();
+      }
+    }
     this.vertices.put(v.getId(), v);
   }
   
@@ -288,6 +298,7 @@ public class AdjacencyMatrix implements Cloneable{
       this.matrix[id][i] = 0;
       this.matrix[i][id] = 0;
     }
+    this.vertices.remove(v.getId());
   }
   
   /**
@@ -298,12 +309,12 @@ public class AdjacencyMatrix implements Cloneable{
    */
   public void insertEdge(int u, int v, Object o) {
 
-    Edge e = new Edge(u, v, 0, o);
-    e.setDirected(false);
+    Edge Vertex = new Edge(u, v, 0, o);
+    Vertex.setDirected(false);
     this.matrix[u ][v] = 1;
     this.matrix[v][u] = 1;
     Pair toAdd = new Pair(u,v);
-    this.edges.put(toAdd, e);
+    this.edges.put(toAdd, Vertex);
   }
   
   /**
@@ -313,77 +324,77 @@ public class AdjacencyMatrix implements Cloneable{
    * @param o
    */
   public void insertDirectedEdge(int u, int v, Object o) {
-    Edge e = new Edge(u, v, 0, o);
-    e.setDirected(true);
+    Edge Vertex = new Edge(u, v, 0, o);
+    Vertex.setDirected(true);
     this.matrix[u][v] = 1;
     Pair toAdd = new Pair(u, v);
-    this.edges.put(toAdd, e);
+    this.edges.put(toAdd, Vertex);
   }
   
   
       
   /**
    *Sets the direction of an edge away from a vertex. Makes an undirected edge directed.
-   * @param e edge.
+   * @param Vertex edge.
    * @param newOrigin the new vertex.
-   * @throws InvalidEdgeException when v is not an endpoint of e.
+   * @throws InvalidEdgeException when v is not an endpoint of Vertex.
    */
-  public void setDirectionFrom(Edge e, Vertex newOrigin) throws InvalidEdgeException {
-    if (!e.isDirected()) {
-      e.setDirected(true);
+  public void setDirectionFrom(Edge Vertex, Vertex newOrigin) throws InvalidEdgeException {
+    if (!Vertex.isDirected()) {
+      Vertex.setDirected(true);
     }
     if(newOrigin.getId() < 0 || newOrigin.getId() > numVertices()) {
-      throw new InvalidEdgeException("Invalid edge" + e);
+      throw new InvalidEdgeException("Invalid edge" + Vertex);
     }
-    this.matrix[e.getStart()][e.getEnd()] = 0;
-    e.setStart(newOrigin.getId());
-    this.matrix[newOrigin.getId()][e.getEnd()] = 1;
+    this.matrix[Vertex.getStart()][Vertex.getEnd()] = 0;
+    Vertex.setStart(newOrigin.getId());
+    this.matrix[newOrigin.getId()][Vertex.getEnd()] = 1;
   }
   
   /**
    * Sets the direction of an edge towards a vertex.  Makes an undirected edge directed.
-   * @param e
+   * @param Vertex
    * @param newDestination
-   * @throws InvalidEdgeException when v is not an endpoint of e
+   * @throws InvalidEdgeException when v is not an endpoint of Vertex
    */
-  public void setDirectionTo(Edge e, Vertex newDestination) throws InvalidEdgeException {
-    if (!e.isDirected()) {
-      e.setDirected(true);
+  public void setDirectionTo(Edge Vertex, Vertex newDestination) throws InvalidEdgeException {
+    if (!Vertex.isDirected()) {
+      Vertex.setDirected(true);
     }
     if(newDestination.getId() < 0 || newDestination.getId() > numVertices()) {
-      throw new InvalidEdgeException("Invalid edge" + e);
+      throw new InvalidEdgeException("Invalid edge" + Vertex);
     }
-    this.matrix[e.getStart()][e.getEnd()] = 0;
-    e.setEnd(newDestination.getId());
-    this.matrix[e.getEnd()][newDestination.getId()] = 1;
+    this.matrix[Vertex.getStart()][Vertex.getEnd()] = 0;
+    Vertex.setEnd(newDestination.getId());
+    this.matrix[Vertex.getEnd()][newDestination.getId()] = 1;
   }
   
   /**
    * Makes a directed edge undirected. Does nothing if the edge is undirected.
-   * @param e edge to make undirected
+   * @param Vertex edge to make undirected
    */
-  public void makeUndirected(Edge e) {
-    if (e.isDirected()) {
-      this.matrix[e.getStart()][e.getEnd()] = 0;
-      this.matrix[e.getEnd()][e.getStart()] = 0;
-      e.setDirected(false);
+  public void makeUndirected(Edge Vertex) {
+    if (Vertex.isDirected()) {
+      this.matrix[Vertex.getStart()][Vertex.getEnd()] = 0;
+      this.matrix[Vertex.getEnd()][Vertex.getStart()] = 0;
+      Vertex.setDirected(false);
     }
   }
   
   /**
    * Reverse the direction nof an edge
-   * @param e
+   * @param Vertex
    * @throws InvalidEdgeException if the edge is undirected
    */
-  public void reverseDirection(Edge e) {
-    e.setDirected(true);
-    final int start = e.getStart();
-    final int end = e.getEnd();
-    this.edges.remove(e);
+  public void reverseDirection(Edge Vertex) {
+    Vertex.setDirected(true);
+    final int start = Vertex.getStart();
+    final int end = Vertex.getEnd();
+    this.edges.remove(Vertex);
     this.matrix[start][end] = 0;
-    e.setStart(end);
-    e.setEnd(start);
-    this.edges.put(new Pair(end,start), e);
+    Vertex.setStart(end);
+    Vertex.setEnd(start);
+    this.edges.put(new Pair(end,start), Vertex);
     this.matrix[end][start] = 1;
   }
   
@@ -424,28 +435,27 @@ public class AdjacencyMatrix implements Cloneable{
   }
   
   public static void main (String[] args) throws IOException {
-    AdjacencyMatrix matrix = new AdjacencyMatrix(10);
-    matrix.addVertex(new Vertex(0));
-    assertTrue(matrix.getVertex(0) != null);
-    matrix.getVertex(0).setAnnotation("Test", "Foo");
-    System.out.println(matrix.getVertex(0).getAnnotation("Test"));
+    AdjacencyMatrix matrix = new AdjacencyMatrix(0);
+    for(int i = 0; i < 55; i++) {
+      matrix.addVertex(new Vertex(i));
+    }
+    for(Iterator<Vertex> it = matrix.vertices(); it.hasNext();) {
+      System.out.print(it.next() + " ");
+    }
   }
   
-  public Object removeEdge(Edge e) {
-    Object toReturn = e.getData();
-    this.matrix[e.getStart()][e.getEnd()] = 0;
-    this.matrix[e.getEnd()][e.getStart()] = 0;
-    this.edges.remove(new Pair(e.getStart(), e.getEnd()));
+  public Object removeEdge(Edge Vertex) {
+    Object toReturn = Vertex.getData();
+    this.matrix[Vertex.getStart()][Vertex.getEnd()] = 0;
+    this.matrix[Vertex.getEnd()][Vertex.getStart()] = 0;
+    this.edges.remove(new Pair(Vertex.getStart(), Vertex.getEnd()));
     return toReturn;
   }
   
   public boolean contains(Vertex v) {
-    if(v == null) {
-      System.out.println("It was v");
-    }
     try {
       return this.vertices.containsKey(v.getId());
-    } catch(NullPointerException e) {
+    } catch(NullPointerException Vertex) {
       return false;
     }
   }

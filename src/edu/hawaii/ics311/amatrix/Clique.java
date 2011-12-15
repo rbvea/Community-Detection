@@ -1,7 +1,8 @@
 package edu.hawaii.ics311.amatrix;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Implementation of Clique with size k.  
@@ -11,62 +12,32 @@ import java.util.ArrayList;
  */
 public class Clique {
 
-  Vertex rep;
-  private List<Vertex> members;
-  private int size;
-  
-  /**
-   * Instantiates a new Clique.
-   * @param v the vertex representing the clique
-   */
-  public Clique(Vertex v) {
-    this.members = new ArrayList<Vertex>();
-    this.rep = v;
-    this.size = 1;
-  }
-  
-  /**
-   * Instantiates a new Clique without a representative.
-   */
-  public Clique() {
-    this.members = new ArrayList<Vertex>();
-    this.rep = null;
-    this.size = 0;
-  }
-  
-  /**
-   *  Adds a vertex to the clique.
-   *  @param v the vertex to add. 
-   */
-  public void addVertex(Vertex v) {
-    this.members.add(v);
-    this.size++;
-  }
-  
-  /**
-   * @return size the size of the clique
-   */
-  public int getSize() {
-    return this.size;
-  }
-  
-  /**
-   * Sets the Clique's representative.
-   * @param rep the representative vertex.
-   */
-  public void setRepresentative(Vertex rep) {
-    this.rep = rep;
-  }
-  
-  /**
-   * Returns the representative.
-   * @return the representative of the Clique.
-   */
-  public Vertex getRepresentative() {
-    return this.rep;
-  }
-  
-  public List<Vertex> getMembers() {
-    return this.members;
-  }
+	Vertex rep;
+	private Set<Vertex> members;
+	
+	/**
+	 * Instantiates a new Clique without a representative.
+	 */
+	public Clique() {
+		this.members = new HashSet<Vertex>();
+	}
+
+	/**
+	 *  Adds a vertex to the clique.
+	 *  @param v the vertex to add. 
+	 */
+	public void addVertex(Vertex v) {
+		this.members.add(v);
+	}
+
+	public Set<Vertex> getMembers() {
+		return this.members;
+	}
+	
+	public String toString() {
+	  String toReturn = "";
+	  for(Iterator<Vertex> it = this.members.iterator(); it.hasNext();)
+	    toReturn += it.next().toString() + " ";
+	  return toReturn;
+	}
 }
