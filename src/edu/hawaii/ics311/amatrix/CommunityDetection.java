@@ -3,15 +3,14 @@ package edu.hawaii.ics311.amatrix;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeSet;
 
 import edu.hawaii.ics311.amatrix.utils.GetMatrix;
 
@@ -49,7 +48,7 @@ public class CommunityDetection {
     this.degrees = new VerticeDegrees();
     this.degreeVertices = degrees.getDegreeSequence(matrix);
     Set<Vertex> thisSet = new HashSet<Vertex>(this.matrix.vertices.values());
-    this.bronbron = new BronKerbosch(this.matrix.clone(), this.degreeVertices);
+    this.bronbron = new BronKerbosch(this.matrix.clone(), this.degreeVertices, k);
     this.bronbron.find(thisSet);
     this.ccmatrix = bronbron.getCliqueCliqueMatrix();
 
@@ -59,12 +58,12 @@ public class CommunityDetection {
           Set<Vertex> one = new HashSet(((Clique)this.ccmatrix.getVertex(i).getData()).getMembers());
           Set<Vertex> two = new HashSet(((Clique)this.ccmatrix.getVertex(j).getData()).getMembers());
           one.retainAll(two);
-          if(one.size() == k) {
-            this.communities.add(one);
+          if(one.size() >= k) {
+            this.communities.add(two);
           }
         } else if (i == j) {
           Set<Vertex> vertex =((Clique)this.ccmatrix.getVertex(i).getData()).getMembers();
-          if(vertex.size() == k)
+          if(vertex.size() >= k)
             this.communities.add(vertex);
         }
       }
@@ -82,15 +81,13 @@ public class CommunityDetection {
   public static void main(String[] args) throws IOException, CloneNotSupportedException{
     GetMatrix get = new GetMatrix();
     VerticeDegrees vDegrees = new VerticeDegrees();
-    AdjacencyMatrix matrix = get.parseFile("doc/artificial-20-mixing.net");
-    //vDegrees.printResults("doc/artificial-20-mixing.net");
+    AdjacencyMatrix matrix = get.parseFile(args[0]);
+    vDegrees.printResults(args[0]);
     Integer[] order = vDegrees.getDegreeSequence(matrix);
-    int highOrder = order[order.length - 1];
     CommunityDetection com = new CommunityDetection(matrix);
     Set<Set<Vertex>> communities = new HashSet<Set<Vertex>>();
     
-    for(int i = 0; i < highOrder; i++)
-      communities.addAll(com.find(i));
+    communities.addAll(com.find(6));
     
     Object[] toSort = communities.toArray();
     Arrays.sort(toSort, new CommunityComparator());
@@ -101,6 +98,7 @@ public class CommunityDetection {
     System.out.println("id   size");
     for(int i = 0; i < toSort.length; i++) {
       Set<Vertex> thisSet = (Set<Vertex>) toSort[i];
+      //compute highestDegree of set
       Vertex highestDegree = null;
       int hiDeg = 0;
       for(Iterator<Vertex> ti = thisSet.iterator(); ti.hasNext();) {
@@ -113,9 +111,57 @@ public class CommunityDetection {
           hiDeg = matrix.degree(v.getId());
         }
       }
+      
+      //print out results
       System.out.format("%d:   %d  deg(%d) = %d%n", id++, thisSet.size(), highestDegree.getId(), hiDeg);
       if(id > 20) 
         break;
+    }
+    /*
+    System.out.println("\nCommunities: ");
+    for(Iterator<Set<Vertex>> it = communities.iterator(); it.hasNext();){
+      System.out.println(it.next());
+    }*/
+    
+    HashMap<Vertex, Integer> bridges = new HashMap<Vertex, Integer>();
+    
+    
+    
+    for (int i = 0; i < matrix.numVertices(); i++) {
+      int numCom = 0;
+      Vertex v =  matrix.getVertex(i);
+      for(Iterator<Set<Vertex>> it = communities.iterator(); it.hasNext();)
+        if(it.next().contains(v))
+          numCom++;
+      bridges.put(v, numCom);
+    }
+    
+    
+    System.out.println("\nBridges: \n" +
+    		"     vertex    # Communities it belongs to");
+
+    
+    Object[] bridgeSort = bridges.entrySet().toArray();
+    Arrays.sort(bridgeSort, new BridgeComparator()); 
+    for(int i = 0; i < 20 && i < bridgeSort.length; i++) {
+      Map.Entry<Vertex, Integer> entry = (Entry<Vertex, Integer>) bridgeSort[i];
+      System.out.println(i + ":\t" + entry.getKey() + "         " + entry.getValue());
+    }
+    
+    System.out.println("\nCommunity Statistics\n " +
+    		"Size\t\t#of communities of this size");
+    
+    int num = ((Set<Vertex>)toSort[0]).size();
+    int[] sizes = new int[num + 1];
+    
+    int countNum = 1;
+    for(int i = 0; i < toSort.length; i++){
+      sizes[((Set<Vertex>)toSort[i]).size()]++;
+    }
+    for(int i = sizes.length - 1; i >= 0; i--) {
+      if(sizes[i] > 0) {
+        System.out.println(i + "\t\t" + sizes[i]);
+      }
     }
   }
 }
@@ -132,5 +178,18 @@ class CommunityComparator implements Comparator<Object> {
     }
     return 0;
   }
+}
 
+class BridgeComparator implements Comparator<Object> {
+
+  public int compare(Object arg0, Object arg1) {
+    Map.Entry<Vertex, Integer> one = (Entry<Vertex, Integer>) arg0;
+    Map.Entry<Vertex, Integer> two = (Entry<Vertex, Integer>) arg1;
+    if(one.getValue() > two.getValue()) 
+      return -1;
+    if(one.getValue() <  two.getValue())
+      return 1;
+    return 0;
+  }
+  
 }

@@ -1,0 +1,386 @@
+* Testing
+
+I've implemented Palla et al.'s k-clique algorithm using Bron-Kerbosch clique-detection.
+The wikipedia site, recommnded by Dr Suthers, features a runthrough of the algorithm on a small graph.
+
+#+BEGIN_HTML
+<pre>
+ BronKerbosch3(G)
+       BronKerbosch2({6}, {4}, Ø)
+           BronKerbosch2({6,4}, Ø, Ø): output {6,4}
+       BronKerbosch2({4}, {3,5}, {6})
+           BronKerbosch2({4,3}, Ø, Ø): output {4,3}
+           BronKerbosch2({4,5}, Ø, Ø): output {4,5}
+       BronKerbosch2({3}, {2}, {4})
+           BronKerbosch2({3,2}, Ø, Ø): output {3,2}
+       BronKerbosch2({1}, {2,5}, Ø)
+           BronKerbosch2({1,2}, {5}, Ø)
+               BronKerbosch2({1,2,5}, Ø, Ø): output {1,2,5}
+       BronKerbosch2({2}, {5}, {1,3}): no output
+       BronKerbosch2({5}, Ø, {1,2,4}): no output
+</pre>
+#+END_HTML
+Source: http://en.wikipedia.org/wiki/Bron–Kerbosch_algorithm#Example
+
+
+I constructed the graph (found under doc/wiki.net) and ran it through my implementation of the Bron-Kerbosch algorithm and it results in the same cliques that the that is reported.  Therefore I believe my implementation of the Bron-Kerbosch clique-detection is suitable for use in Palla et al's k-clique detection algorithm. 
+
+#+BEGIN_HTML
+<pre>
+Communities found with implementation of Bron-Kerbosch algorithm:
+[1, 2]
+[4, 3]
+[1, 0, 4]
+[3, 2]
+\[3, 5]
+</pre>
+#+END_HTML
+Output of minimum CommunityDetection.find(2):
+
+#+BEGIN_HTML
+<pre>
+Bridges: 
+     vertex    # Communities it belongs to
+
+Amount communities found: 5
+id   size
+1:   3  deg(1) = 3
+2:   2  deg(1) = 3
+3:   2  deg(4) = 3
+4:   2  deg(3) = 3
+5:   2  deg(3) = 3
+
+Bridges: 
+     vertex    #Communities it belongs to
+0:    3         3
+1:    1         2
+2:    4         2
+3:    2         2
+4:    0         1
+5:    5         1
+
+Community Statistics
+ Size of Community     #of communities of this size
+   3                       1
+   2                       4
+</pre>
+#+END_HTML 
+
+In terms of communities this would mean that there is only one community of size 3, which is apparent in the image provided by wikipedia.
+
+* Results
+** Karate.net
+
+#+BEGIN_HTML
+<pre>
+Amount communities found: 25
+id   size
+1:   5  deg(25) = 16
+2:   5  deg(25) = 16
+3:   4  deg(28) = 17
+4:   4  deg(28) = 17
+5:   3  deg(28) = 17
+6:   3  deg(28) = 17
+7:   3  deg(25) = 16
+8:   3  deg(25) = 16
+9:   3  deg(2) = 4
+10:   3  deg(25) = 16
+11:   3  deg(28) = 17
+12:   3  deg(25) = 16
+13:   3  deg(26) = 12
+14:   3  deg(28) = 17
+15:   3  deg(28) = 17
+16:   3  deg(25) = 16
+17:   3  deg(25) = 16
+18:   3  deg(28) = 17
+19:   3  deg(28) = 17
+20:   3  deg(25) = 16
+
+Bridges: 
+     vertex    # Communities it belongs to
+0:		25         11
+1:		28         11
+2:		26         9
+3:		24         5
+4:		23         4
+5:		12         3
+6:		15         3
+7:		2          3
+8:		7          3
+9:		22         3
+10:		20         2
+11:		8          2
+12:		31         2
+13:		1          2
+14:		16         1
+15:		30         1
+16:		14         1
+17:		3          1
+18:		13         1
+19:		11         1
+
+Community Statistics
+ Size		#of communities of this size
+5		2
+4		2
+3		21
+</pre>
+#+END_HTML
+
+** c-elegans.net
+
+#+BEGIN_HTML
+<pre>
+Amount communities found: 25
+id   size
+1:   5  deg(25) = 16
+2:   5  deg(25) = 16
+3:   4  deg(28) = 17
+4:   4  deg(28) = 17
+5:   3  deg(25) = 16
+6:   3  deg(28) = 17
+7:   3  deg(25) = 16
+8:   3  deg(28) = 17
+9:   3  deg(2) = 4
+10:   3  deg(26) = 12
+11:   3  deg(12) = 6
+12:   3  deg(28) = 17
+13:   3  deg(25) = 16
+14:   3  deg(28) = 17
+15:   3  deg(25) = 16
+16:   3  deg(25) = 16
+17:   3  deg(25) = 16
+18:   3  deg(28) = 17
+19:   3  deg(25) = 16
+20:   3  deg(25) = 16
+
+Bridges: 
+     vertex    # Communities it belongs to
+0:		28         11
+1:		25         11
+2:		26         9
+3:		24         5
+4:		23         4
+5:		15         3
+6:		12         3
+7:		2         3
+8:		22         3
+9:		7         3
+10:		8         2
+11:		1         2
+12:		31         2
+13:		20         2
+14:		19         1
+15:		13         1
+16:		32         1
+17:		4         1
+18:		14         1
+19:		10         1
+
+Community Statistics
+ Size		#of communities of this size
+5		2
+4		2
+3		21
+</pre>
+#+END_HTML
+
+** Artificial-00-mixing.net
+#+BEGIN_HTML
+<pre>
+Graph<doc/artificial-00-mixing.net>|V|:  1000|E|: 7578
+Degree Distribution:	 minimum	 average	 maximum
+  inDegree(v):		  0	7.578000	48
+  outDegree(v):		  0	7.579000	46
+
+Amount communities found: 2043
+id   size
+1:   21  deg(424) = 49
+2:   21  deg(424) = 49
+3:   19  deg(206) = 50
+4:   19  deg(206) = 50
+5:   18  deg(206) = 50
+6:   18  deg(206) = 50
+7:   18  deg(206) = 50
+8:   18  deg(206) = 50
+9:   17  deg(424) = 49
+10:   17  deg(206) = 50
+11:   17  deg(190) = 47
+12:   17  deg(190) = 47
+13:   17  deg(190) = 47
+14:   17  deg(190) = 47
+15:   17  deg(190) = 47
+16:   17  deg(190) = 47
+17:   17  deg(190) = 47
+18:   17  deg(190) = 47
+19:   17  deg(190) = 47
+20:   17  deg(190) = 47
+
+Bridges: 
+       vertex    # Communities it belongs to
+0:      482         160
+1:      481         148
+2:	478         138
+3:	580         115
+4:	47         113
+5:	54         109
+6:	246         99
+7:	146         96
+8:	159         94
+9:	480         91
+10:	48         89
+11:	83         80
+12:	106         79
+13:	215         78
+14:	74         77
+15:	464         76
+16:	582         76
+17:	606         75
+18:	149         75
+19:	574         74
+
+Community Statistics
+ Size		#of communities of this size
+21		2
+19		2
+18		4
+17		24
+16		10
+15		13
+14		15
+13		21
+12		30
+11		57
+10		128
+9		172
+8		213
+7		287
+6		390
+5		399
+4		211
+3		65
+</pre>
+#+END_HTML
+
+** Artificial-05-mixing.net
+#+BEGIN_HTML
+<pre>
+Graph<doc/artificial-05-mixing.net>|V|:  1000|E|: 7752
+Degree Distribution:	 minimum	 average	 maximum
+  inDegree(v):		  0	7.752000	45
+  outDegree(v):		  0	7.753000	45
+Amount communities found: 2283
+id   size
+1:   7  deg(392) = 43
+2:   7  deg(262) = 50
+3:   7  deg(979) = 50
+4:   7  deg(926) = 50
+5:   7  deg(392) = 43
+6:   7  deg(112) = 50
+7:   7  deg(262) = 50
+8:   7  deg(979) = 50
+9:   7  deg(392) = 43
+10:   7  deg(979) = 50
+11:   7  deg(979) = 50
+12:   7  deg(979) = 50
+13:   7  deg(262) = 50
+14:   7  deg(392) = 43
+15:   7  deg(262) = 50
+16:   7  deg(262) = 50
+17:   7  deg(262) = 50
+18:   7  deg(392) = 43
+19:   7  deg(978) = 40
+20:   7  deg(926) = 50
+
+Bridges: 
+     vertex    # Communities it belongs to
+0:	942         61
+1:	977         56
+2:	983         55
+3:	262         54
+4:	90         54
+5:	575         53
+6:	756         52
+7:	373         52
+8:	363         51
+9:	979         50
+10:	926         49
+11:	112         49
+12:	987         49
+13:	146         48
+14:	894         47
+15:	779         47
+16:	375         47
+17:	653         46
+18:	297         45
+19:	895         44
+
+Community Statistics
+ Size		#of communities of this size
+7		34
+6		94
+5		213
+4		561
+3		1381
+</pre>
+#+END_HTML
+
+** artificial-20-mixing.net
+#+BEGIN_HTML
+<pre>
+Graph<doc/artificial-20-mixing.net>|V|:  1000|E|: 7469
+Degree Distribution:	 minimum	 average	 maximum
+  inDegree(v):		  0	7.469000	42
+  outDegree(v):		  0	7.470000	46
+Amount communities found: 1283
+id   size
+1:   4  deg(328) = 49
+2:   4  deg(34) = 50
+3:   4  deg(89) = 36
+4:   4  deg(480) = 39
+5:   4  deg(34) = 50
+6:   4  deg(613) = 33
+7:   4  deg(589) = 40
+8:   4  deg(154) = 42
+9:   4  deg(215) = 50
+10:   4  deg(89) = 36
+11:   4  deg(33) = 48
+12:   4  deg(33) = 48
+13:   4  deg(169) = 37
+14:   4  deg(22) = 42
+15:   4  deg(51) = 50
+16:   3  deg(58) = 19
+17:   3  deg(480) = 39
+18:   3  deg(212) = 47
+19:   3  deg(583) = 26
+20:   3  deg(332) = 42
+
+Bridges: 
+     vertex    # Communities it belongs to
+0:	328         46
+1:	480         37
+2:	154         36
+3:	215         35
+4:	33         32
+5:	23         32
+6:	51         32
+7:	34         31
+8:	169         29
+9:	589         28
+10:	171         28
+11:	212         28
+12:	22         28
+13:	685         28
+14:	164         27
+15:	412         26
+16:	25         24
+17:	107         23
+18:	124         23
+19:	220         22
+
+Community Statistics
+ Size		#of communities of this size
+4		15
+3		1268
+</pre>
+#+END_HTML

@@ -1,0 +1,32 @@
+* Testing
+
+I've implemented Palla et al.'s k-clique algorithm using Bron-Kerbosch clique-detection.
+
+Amount communities found: 5
+id   size
+1:   3  deg(1) = 3
+2:   2  deg(1) = 3
+3:   2  deg(4) = 3
+4:   2  deg(3) = 3
+5:   2  deg(3) = 3
+
+Communities: 
+[1, 2]
+[4, 3]
+[1, 0, 4]
+[3, 2]
+[3, 5]
+
+Bridges: 
+     vertex    # Communities it belongs to
+0:    3         3
+1:    1         2
+2:    4         2
+3:    2         2
+4:    0         1
+5:    5         1
+
+Community Statistics
+ Size of Community     #of communities of this size
+   3                       1
+   2                       4
